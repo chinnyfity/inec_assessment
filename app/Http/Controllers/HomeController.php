@@ -106,9 +106,13 @@ class HomeController extends Controller
 
         $lga_name = Lga::where('lga_id', $lga_id)->value('lga_name');
 
+        $results .= "<div>
+        <p><b>State:</b> $state_name</p>
+        <p style='margin-bottom:30px!important'><b>LGA:</b> $lga_name</p>";
+
         if(count($polling_units) > 0){
             foreach($polling_units as $polling_unit){
-                $res = AnnouncedPuResult::select('party_abbreviation', 'party_score')->where('polling_unit_uniqueid', $polling_unit->polling_unit_id)->where('party_score', '>', 0)->get();
+                $res = AnnouncedPuResult::select('party_abbreviation', 'party_score')->where('polling_unit_uniqueid', $polling_unit->polling_unit_id)->where('party_score', '>', 0)->groupBy('party_abbreviation')->get();
                 
                 if(count($res) > 0){
                     $sums=0;
@@ -116,25 +120,21 @@ class HomeController extends Controller
                         $party = $re->party_abbreviation;
                         $party_score = $re->party_score;
                         $sums+=$party_score;
+
+                        $results .= "<div style='margin-bottom:20px!important;color:#333;'>
+                            <div><b>Party:</b> $party</div>
+                            <div><b>Total Score:</b> <font>".number_format($sums)."</font></div>
+                        </div>";
                     }
                 }
-
-                // $results .= "<p><b>State:</b> $state_name</p>
-                // <p><b>LGA:</b> $lga_name</p>
-                // <p><b>Total Score:</b> <font>$polling_unit->total_score</font></p>";
-            }
-        }else{
-            // $results .= "<p><b>State:</b> $state_name</p>
-            // <p><b>LGA:</b> $lga_name</p>
-            // <p><b>Total Score:</b> <font style='font-size:14px;'>No score computed yet</font></p>";
+            }            
         }
+        $results .= "</div>";
         
-
-
         return response()->json([
             'status' => 'success',
             'message' => 'data retrieved',
-            'data' => $polling_units
+            'data' => $results
         ],200);
         
 

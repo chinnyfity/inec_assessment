@@ -26,7 +26,7 @@
             data-splitout="none"
             data-responsive_offset="on" >
             
-              <div class="banner-text mt--100 mt-xs-0">
+              <div class="banner-text mt--80 mt-xs-0">
                 <h2>Find a Polling Unit</h2>
                 <form method="post" autocomplete="off" action="javascript:;">
                   <div class="search input_container">

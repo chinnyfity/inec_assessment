@@ -28,7 +28,7 @@
             data-splitout="none"
             data-responsive_offset="on" >
 
-            <div class="banner-text mt--130 mt-xs-0">
+            <div class="banner-text mt--80 mt-xs-0">
                 <h2>Enter Results</h2>
             </div>
             </div>
